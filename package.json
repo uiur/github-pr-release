@@ -1,0 +1,20 @@
+{
+  "name": "github-pr-release",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bundle.js",
+  "author": "Kazato Sugimoto",
+  "license": "MIT",
+  "scripts": {
+    "build": "6to5 index.js -o bundle.js"
+  },
+  "dependencies": {
+    "co": "^4.1.0",
+    "github": "^0.2.3",
+    "moment": "^2.9.0",
+    "mustache": "^1.0.0",
+    "mz": "^1.2.1",
+    "thenify-all": "^1.6.0",
+    "6to5": "^2.13.3"
+  }
+}
