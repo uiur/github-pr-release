@@ -64,7 +64,7 @@ module.exports = co.wrap(function* () {
     return ret
   }, [])
 
-  var template = yield fs.readFile('release.mustache', 'utf8')
+  var template = yield fs.readFile(__dirname + '/release.mustache', 'utf8')
 
   var text = render(template, { now: moment().format('YYYY-MM-DD HH:mm:ss'), prs: releasePRs })
   var [title, ...body] = text.split('\n')
