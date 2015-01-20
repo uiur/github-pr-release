@@ -94,7 +94,7 @@ module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$1() {
           return ret;
         }, []);
         context$1$0.next = 19;
-        return fs.readFile("release.mustache", "utf8");
+        return fs.readFile(__dirname + "/release.mustache", "utf8");
       case 19:
         template = context$1$0.sent;
         text = render(template, { now: moment().format("YYYY-MM-DD HH:mm:ss"), prs: releasePRs });
