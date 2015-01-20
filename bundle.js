@@ -41,7 +41,7 @@ var readConfig = co.wrap(regeneratorRuntime.mark(function callee$0$0() {
   }, callee$0$0, this);
 }));
 
-co(regeneratorRuntime.mark(function callee$0$1() {
+module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$1() {
   var config, pullRequests, repo, targetPR, commits, shas, prs, releasePRs, template, text, _text$split, _text$split2, title, body;
   return regeneratorRuntime.wrap(function callee$0$1$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
@@ -113,6 +113,4 @@ co(regeneratorRuntime.mark(function callee$0$1() {
         return context$1$0.stop();
     }
   }, callee$0$1, this);
-}))["catch"](function (err) {
-  console.error(err);
-});
+}));

@@ -24,7 +24,7 @@ var readConfig = co.wrap(function* () {
   return Object.assign({}, defaultConfig, userConfig)
 })
 
-co(function* () {
+module.exports = co.wrap(function* () {
   var config = yield readConfig()
 
   github.authenticate({
@@ -74,6 +74,4 @@ co(function* () {
     title: title,
     body: body.join('\n')
   }))
-}).catch(function (err) {
-  console.error(err)
 })
