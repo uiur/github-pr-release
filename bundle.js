@@ -88,7 +88,9 @@ module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$1() {
       case 15:
         prs = context$1$0.sent;
         releasePRs = prs.reduce(function (ret, pr) {
-          if (shas.indexOf(pr.head.sha) !== -1 && pr.number !== targetPR.number) {
+          var matched = pr.number !== targetPR.number && pr.base.ref === config.branch.staging;
+
+          if (shas.indexOf(pr.head.sha) !== -1 && matched) {
             ret.push(pr);
           }
           return ret;
