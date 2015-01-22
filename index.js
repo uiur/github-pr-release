@@ -10,11 +10,21 @@ var Github = require('github')
 var github = new Github({
   version: '3.0.0'
 })
+var pullRequests = thenifyAll(github.pullRequests)
 
 const defaultConfig = {
   branch: {
     production: 'master',
     staging: 'staging'
+  }
+}
+
+var config = null
+
+function getRepo() {
+  return {
+    user: config.repo.split('/')[0],
+    repo: config.repo.split('/')[1]
   }
 }
 
@@ -24,26 +34,20 @@ var readConfig = co.wrap(function* () {
   return Object.assign({}, defaultConfig, userConfig)
 })
 
-module.exports = co.wrap(function* () {
-  var config = yield readConfig()
+var createReleaseMessage = co.wrap(function* (prs) {
+  var template = yield fs.readFile(__dirname + '/release.mustache', 'utf8')
 
-  github.authenticate({
-    type: 'oauth',
-    token: config.token
-  })
+  var text = render(template, { now: moment().format('YYYY-MM-DD HH:mm:ss'), prs: prs })
+  var [title, ...body] = text.split('\n')
 
-  var pullRequests = thenifyAll(github.pullRequests)
-
-  var repo = {
-    user: config.repo.split('/')[0],
-    repo: config.repo.split('/')[1]
+  return {
+    title: title,
+    body: body.join('\n')
   }
+})
 
-  var targetPR = yield pullRequests.create(Object.assign({}, repo, {
-    title: 'Preparing release pull request...',
-    base: config.branch.production,
-    head: config.branch.staging
-  }))
+var getReleasePRs = co.wrap(function* (targetPR) {
+  var repo = getRepo()
 
   var commits = yield pullRequests.getCommits(Object.assign({}, repo, {
     number: targetPR.number,
@@ -58,7 +62,7 @@ module.exports = co.wrap(function* () {
   }))
 
   var releasePRs = prs.reduce((ret, pr) => {
-    var matched =  pr.number !== targetPR.number && pr.base.ref === config.branch.staging
+    var matched =  pr.number !== targetPR.number && pr.base.ref === targetPR.head.ref
 
     if (shas.indexOf(pr.head.sha) !== -1 && matched) {
       ret.push(pr)
@@ -66,14 +70,43 @@ module.exports = co.wrap(function* () {
     return ret
   }, [])
 
-  var template = yield fs.readFile(__dirname + '/release.mustache', 'utf8')
+  return releasePRs
+})
 
-  var text = render(template, { now: moment().format('YYYY-MM-DD HH:mm:ss'), prs: releasePRs })
-  var [title, ...body] = text.split('\n')
+module.exports = co.wrap(function* () {
+  config = yield readConfig()
+
+  var repo = getRepo()
+
+  github.authenticate({
+    type: 'oauth',
+    token: config.token
+  })
+
+  var targetPR = yield pullRequests.create(Object.assign({}, repo, {
+    title: 'Preparing release pull request...',
+    base: config.branch.production,
+    head: config.branch.staging
+  }))
+
+  // TODO: debug
+  // var targetPR = {
+  //   number: 1089,
+  //   base: {
+  //     ref: config.branch.production
+  //   },
+  //   head: {
+  //     ref: config.branch.staging
+  //   }
+  // }
+
+  var releasePRs = yield getReleasePRs(targetPR)
+
+  var release = yield createReleaseMessage(releasePRs)
 
   yield pullRequests.update(Object.assign({}, repo, {
     number: targetPR.number,
-    title: title,
-    body: body.join('\n')
+    title: release.title,
+    body: release.body
   }))
 })
