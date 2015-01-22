@@ -28,10 +28,16 @@ function getRepo() {
   }
 }
 
-var readConfig = co.wrap(function* () {
-  var userConfig = yield fs.readFile('.github-pr-release.json', 'utf8').then(JSON.parse)
+function readConfigFile() {
+  return fs.readFile('.github-pr-release.json', 'utf8')
+           .then(JSON.parse)
+           .catch(function () { return {} })
+}
 
-  return Object.assign({}, defaultConfig, userConfig)
+var readConfig = co.wrap(function* (runtimeConfig = {}) {
+  var fileConfig = yield readConfigFile()
+
+  return Object.assign({}, defaultConfig, fileConfig, runtimeConfig)
 })
 
 var createReleaseMessage = co.wrap(function* (prs) {
@@ -73,8 +79,8 @@ var getReleasePRs = co.wrap(function* (targetPR) {
   return releasePRs
 })
 
-module.exports = co.wrap(function* () {
-  config = yield readConfig()
+module.exports = co.wrap(function* (runtimeConfig = {}) {
+  config = yield readConfig(runtimeConfig)
 
   var repo = getRepo()
 

@@ -34,17 +34,24 @@ function getRepo() {
   };
 }
 
+function readConfigFile() {
+  return fs.readFile(".github-pr-release.json", "utf8").then(JSON.parse)["catch"](function () {
+    return {};
+  });
+}
+
 var readConfig = co.wrap(regeneratorRuntime.mark(function callee$0$0() {
-  var userConfig;
+  var runtimeConfig, fileConfig, args$1$0 = arguments;
   return regeneratorRuntime.wrap(function callee$0$0$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        context$1$0.next = 2;
-        return fs.readFile(".github-pr-release.json", "utf8").then(JSON.parse);
-      case 2:
-        userConfig = context$1$0.sent;
-        return context$1$0.abrupt("return", Object.assign({}, defaultConfig, userConfig));
-      case 4:
+        runtimeConfig = args$1$0[0] === undefined ? {} : args$1$0[0];
+        context$1$0.next = 3;
+        return readConfigFile();
+      case 3:
+        fileConfig = context$1$0.sent;
+        return context$1$0.abrupt("return", Object.assign({}, defaultConfig, fileConfig, runtimeConfig));
+      case 5:
       case "end":
         return context$1$0.stop();
     }
@@ -116,13 +123,14 @@ var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR
 }));
 
 module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$3() {
-  var repo, targetPR, releasePRs, release;
+  var runtimeConfig, repo, targetPR, releasePRs, release, args$1$0 = arguments;
   return regeneratorRuntime.wrap(function callee$0$3$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        context$1$0.next = 2;
-        return readConfig();
-      case 2:
+        runtimeConfig = args$1$0[0] === undefined ? {} : args$1$0[0];
+        context$1$0.next = 3;
+        return readConfig(runtimeConfig);
+      case 3:
         config = context$1$0.sent;
         repo = getRepo();
 
@@ -132,29 +140,29 @@ module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$3() {
           token: config.token
         });
 
-        context$1$0.next = 7;
+        context$1$0.next = 8;
         return pullRequests.create(Object.assign({}, repo, {
           title: "Preparing release pull request...",
           base: config.branch.production,
           head: config.branch.staging
         }));
-      case 7:
+      case 8:
         targetPR = context$1$0.sent;
-        context$1$0.next = 10;
+        context$1$0.next = 11;
         return getReleasePRs(targetPR);
-      case 10:
+      case 11:
         releasePRs = context$1$0.sent;
-        context$1$0.next = 13;
+        context$1$0.next = 14;
         return createReleaseMessage(releasePRs);
-      case 13:
+      case 14:
         release = context$1$0.sent;
-        context$1$0.next = 16;
+        context$1$0.next = 17;
         return pullRequests.update(Object.assign({}, repo, {
           number: targetPR.number,
           title: release.title,
           body: release.body
         }));
-      case 16:
+      case 17:
       case "end":
         return context$1$0.stop();
     }
