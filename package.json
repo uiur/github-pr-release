@@ -2,11 +2,11 @@
   "name": "github-pr-release",
   "version": "0.0.1",
   "description": "",
-  "main": "bundle.js",
+  "main": "index.js",
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "build": "6to5 index.js -o bundle.js"
+    "build": "6to5 index.es6 -o index.js"
   },
   "dependencies": {
     "co": "^4.1.0",
