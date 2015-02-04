@@ -67,7 +67,9 @@ var getReleasePRs = co.wrap(function* (targetPR) {
     per_page: 100
   }))
 
-  var releasePRs = prs.reduce((ret, pr) => {
+  var mergedPRs = prs.filter(pr => pr.merged_at !== null)
+
+  var releasePRs = mergedPRs.reduce((ret, pr) => {
     var matched =  pr.number !== targetPR.number && pr.base.ref === targetPR.head.ref
 
     if (shas.indexOf(pr.head.sha) !== -1 && matched) {

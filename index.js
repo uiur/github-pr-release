@@ -84,7 +84,7 @@ var createReleaseMessage = co.wrap(regeneratorRuntime.mark(function callee$0$1(p
 }));
 
 var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR) {
-  var repo, commits, shas, prs, releasePRs;
+  var repo, commits, shas, prs, mergedPRs, releasePRs;
   return regeneratorRuntime.wrap(function callee$0$2$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
@@ -106,7 +106,10 @@ var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR
         }));
       case 7:
         prs = context$1$0.sent;
-        releasePRs = prs.reduce(function (ret, pr) {
+        mergedPRs = prs.filter(function (pr) {
+          return pr.merged_at !== null;
+        });
+        releasePRs = mergedPRs.reduce(function (ret, pr) {
           var matched = pr.number !== targetPR.number && pr.base.ref === targetPR.head.ref;
 
           if (shas.indexOf(pr.head.sha) !== -1 && matched) {
@@ -115,7 +118,7 @@ var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR
           return ret;
         }, []);
         return context$1$0.abrupt("return", releasePRs);
-      case 10:
+      case 11:
       case "end":
         return context$1$0.stop();
     }
