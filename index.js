@@ -11,7 +11,8 @@ var Github = require("github"),
     fs = require("mz/fs"),
     render = require("mustache").render,
     moment = require("moment"),
-    thenifyAll = require("thenify-all");
+    thenifyAll = require("thenify-all"),
+    parseLinkHeader = require("parse-link-header");
 
 var github = new Github({
   version: "3.0.0"
@@ -83,6 +84,31 @@ var createReleaseMessage = co.wrap(regeneratorRuntime.mark(function callee$0$1(p
   }, callee$0$1, this);
 }));
 
+function getPRCommits(repo, targetPR) {
+  var getCommits = function () {
+    var page = arguments[0] === undefined ? 1 : arguments[0];
+    return pullRequests.getCommits(Object.assign({}, repo, {
+      number: targetPR.number,
+      per_page: 100,
+      page: page
+    })).then(function (commits) {
+      var hasNext = !!parseLinkHeader(commits.meta.link).next;
+
+      result = result.concat(commits);
+
+      if (hasNext) {
+        return getCommits(page + 1);
+      } else {
+        return result;
+      }
+    });
+  };
+
+  var result = [];
+
+  return getCommits();
+}
+
 var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR) {
   var repo, commits, shas, prs, mergedPRs, releasePRs;
   return regeneratorRuntime.wrap(function callee$0$2$(context$1$0) {
@@ -90,10 +116,7 @@ var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR
       case 0:
         repo = getRepo();
         context$1$0.next = 3;
-        return pullRequests.getCommits(Object.assign({}, repo, {
-          number: targetPR.number,
-          per_page: 100
-        }));
+        return getPRCommits(repo, targetPR);
       case 3:
         commits = context$1$0.sent;
         shas = commits.map(function (commit) {

@@ -6,6 +6,7 @@ var Github = require('github')
   , render = require('mustache').render
   , moment = require('moment')
   , thenifyAll = require('thenify-all')
+  , parseLinkHeader = require('parse-link-header')
 
 var github = new Github({
   version: '3.0.0'
@@ -52,13 +53,34 @@ var createReleaseMessage = co.wrap(function* (prs) {
   }
 })
 
+function getPRCommits(repo, targetPR) {
+  var result = []
+
+  function getCommits(page = 1) {
+    return pullRequests.getCommits(Object.assign({}, repo, {
+      number: targetPR.number,
+      per_page: 100,
+      page: page
+    })).then(function(commits) {
+      var hasNext = !!parseLinkHeader(commits.meta.link).next
+
+      result = result.concat(commits)
+
+      if (hasNext) {
+        return getCommits(page + 1)
+      } else {
+        return result
+      }
+    })
+  }
+
+  return getCommits()
+}
+
 var getReleasePRs = co.wrap(function* (targetPR) {
   var repo = getRepo()
 
-  var commits = yield pullRequests.getCommits(Object.assign({}, repo, {
-    number: targetPR.number,
-    per_page: 100
-  }))
+  var commits = yield getPRCommits(repo, targetPR)
 
   var shas = commits.map(commit => commit.sha)
 
