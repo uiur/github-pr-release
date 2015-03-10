@@ -157,6 +157,25 @@ var getReleasePRs = co.wrap(regeneratorRuntime.mark(function callee$0$2(targetPR
   }, callee$0$2, this);
 }));
 
+function createOrFirstReleasePR(repo, config) {
+  return pullRequests.create(Object.assign({}, repo, {
+    title: "Preparing release pull request...",
+    base: config.branch.production,
+    head: config.branch.staging
+  }))["catch"](function (err) {
+    if (!err.code === 422) throw err;
+
+    return pullRequests.getAll(Object.assign({}, repo, {
+      head: "master",
+      state: "open"
+    })).then(function (prs) {
+      return prs.find(function (pr) {
+        return pr.head.ref === config.branch.staging && pr.base.ref === config.branch.production;
+      });
+    });
+  });
+}
+
 module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$3() {
   var runtimeConfig = arguments[0] === undefined ? {} : arguments[0];
   var repo, targetPR, releasePRs, release;
@@ -176,11 +195,7 @@ module.exports = co.wrap(regeneratorRuntime.mark(function callee$0$3() {
         });
 
         context$1$0.next = 7;
-        return pullRequests.create(Object.assign({}, repo, {
-          title: "Preparing release pull request...",
-          base: config.branch.production,
-          head: config.branch.staging
-        }));
+        return createOrFirstReleasePR(repo, config);
 
       case 7:
         targetPR = context$1$0.sent;
