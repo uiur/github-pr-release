@@ -98,7 +98,9 @@ function getPRCommits(repo, targetPR) {
       per_page: 100,
       page: page
     })).then(function (commits) {
-      var hasNext = !!parseLinkHeader(commits.meta.link).next;
+      var link = parseLinkHeader(commits.meta.link);
+
+      var hasNext = !!(link && link.next);
 
       result = result.concat(commits);
 
