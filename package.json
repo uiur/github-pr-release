@@ -6,10 +6,10 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "build": "6to5 index.es6 -o index.js"
+    "build": "babel index.es6 -o index.js"
   },
   "dependencies": {
-    "6to5": "^2.13.3",
+    "babel": "^4.7.5",
     "co": "^4.1.0",
     "github": "^0.2.3",
     "moment": "^2.9.0",
