@@ -2,7 +2,7 @@
 
 var _toArray = function (arr) { return Array.isArray(arr) ? arr : Array.from(arr); };
 
-require("6to5/polyfill");
+require("babel/polyfill");
 
 var Github = require("github"),
     co = require("co"),
