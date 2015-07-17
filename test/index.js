@@ -63,14 +63,14 @@ describe('GithubClient', function () {
       .get(commitsEndpoint + '&page=1')
       .reply(200, [
         { sha: 'sha0' },
-        { sha: 'sha1'}
+        { sha: 'sha1' }
       ], {
         Link: '<https://api.github.com/resource?page=2>; rel="next", <https://api.github.com/resource?page=2>; rel="last"'
       })
       .get(commitsEndpoint + '&page=2')
       .reply(200, [
         { sha: 'sha2' },
-        { sha: 'sha3'}
+        { sha: 'sha3' }
       ])
 
     it('returns pr', function (done) {
@@ -80,6 +80,33 @@ describe('GithubClient', function () {
 
         done()
       }).catch(done)
+    })
+  })
+
+  describe('#collectReleasePRs()', function () {
+    nock('https://api.github.com')
+      .get('/repos/uiureo/awesome-app/pulls/42/commits')
+      .query(true)
+      .reply(200, [
+        { sha: '0' },
+        { sha: '1' },
+        { sha: '2' }
+      ])
+      .get('/repos/uiureo/awesome-app/pulls?state=closed&base=master&per_page=100')
+      .reply(200, [
+        { number: 10, head: { sha: '0' }, merged_at: null },
+        { number: 1, head: { sha: '1' }, merged_at: 'a' },
+        { number: 2, head: { sha: '2' }, merged_at: 'b' },
+        { number: 100, head: { sha: '100' }, merged_at: 'c' }
+      ])
+
+    it('returns prs that is going to be released', function (done) {
+      this.client.collectReleasePRs({ number: 42 })
+        .then(function (prs) {
+          assert(prs.length === 2)
+
+          done()
+        }).catch(done)
     })
   })
 })
