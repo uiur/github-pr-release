@@ -6,7 +6,8 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "build": "babel index.es6 -o index.js"
+    "build": "babel index.es6 -o index.js",
+    "test": "mocha --require intelli-espower-loader"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,11 @@
     "mz": "^1.2.1",
     "parse-link-header": "^0.2.0",
     "thenify-all": "^1.6.0"
+  },
+  "devDependencies": {
+    "espower-loader": "^0.11.0",
+    "intelli-espower-loader": "^0.7.0",
+    "mocha": "^2.2.5",
+    "power-assert": "^0.11.0"
   }
 }
