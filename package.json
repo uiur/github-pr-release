@@ -1,6 +1,6 @@
 {
   "name": "github-pr-release",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Create a release pull request by Github API",
   "main": "index.js",
   "author": "Kazato Sugimoto",
