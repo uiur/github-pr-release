@@ -109,4 +109,21 @@ describe('GithubClient', function () {
         }).catch(done)
     })
   })
+
+  describe('#updatePR()', function () {
+    nock('https://api.github.com/')
+      .patch('/repos/uiureo/awesome-app/pulls/42')
+      .reply(200, {
+        title: 'updated',
+        number: 42
+      })
+
+    it('updates a PR', function (done) {
+      var pr = { number: 42 }
+      this.client.updatePR(pr, { title: 'updated' }).then(function (pr) {
+        assert(pr.title === 'updated')
+        done()
+      })
+    })
+  })
 })
