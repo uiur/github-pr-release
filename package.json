@@ -16,11 +16,13 @@
   "dependencies": {
     "babel": "^4.7.5",
     "co": "^4.1.0",
+    "es6-promise": "^2.3.0",
     "github": "^0.2.3",
     "moment": "^2.9.0",
     "mustache": "^1.0.0",
     "mz": "^1.2.1",
     "parse-link-header": "^0.2.0",
+    "request": "^2.58.0",
     "thenify-all": "^1.6.0"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "espower-loader": "^0.11.0",
     "intelli-espower-loader": "^0.7.0",
     "mocha": "^2.2.5",
+    "nock": "^2.7.0",
     "power-assert": "^0.11.0",
     "standard": "^4.5.4"
   },
