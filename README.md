@@ -3,47 +3,35 @@ Create a release pull request by using Github API. In fact, this is a Node.js po
 
 * No dependency on git. You can easily deploy it to Heroku etc.
 * Fast because it uses only Github API.
-* Written in ES6 using 6to5.
 
 [![Gyazo](http://i.gyazo.com/7484a59ade4e96ce9a015f1aa817cab8.png)](http://gyazo.com/7484a59ade4e96ce9a015f1aa817cab8)
 
 
 ## Usage
-### release(config = {})
+### release(config)
 Create a release pull request and return Promise.
 
+You must pass a config as an argument.
+
 ``` javascript
-var release = require('git-pr-release');
+var release = require('github-pr-release')
 
-release().then(function () {
-  // success
-}).catch(function () {
-  // nice catch!
-});
-```
-
-## Configuration
-
-Prepare a config file in your working directory:  `.github-pr-release.json`
-``` javascript
-{
-  "repo": "your/repository",
-  "token": "github token",
-  "branch": {
-    "production": "production",
-    "staging": "master"
-  }
+var config = {
+  token: 'your github token',
+  owner: 'uiureo',
+  repo:  'awesome-web-app',
+  head:  'master',
+  base:  'production'
 }
-```
 
-or pass a config object to `release()`.
-
-``` javascript
-release({
-  repo: 'your/repository',
-  token: 'github token'
+release(config).then(function (pullRequest) {
+  // success
 })
 ```
+
+`pullRequest` is an object that github api returns.
+
+See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 
 ## Example
 
@@ -54,17 +42,9 @@ release({
 release = require('github-pr-release')
 module.exports = (robot) ->
   robot.respond /release/i, (msg) ->
-    msg.send '(salute)'
-    release()
-```
-
-
-## Hack
-
-Edit `index.es6` and run
-
-```
-npm run build
+    release(config).then((pullRequest) ->
+      msg.send pullRequest.html_url
+    )
 ```
 
 ## License
