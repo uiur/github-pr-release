@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel index.es6 -o index.js",
-    "test": "mocha --require intelli-espower-loader"
+    "test": "standard index.es6 && mocha --require intelli-espower-loader"
   },
   "repository": {
     "type": "git",
@@ -24,9 +24,14 @@
     "thenify-all": "^1.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "^3.1.23",
     "espower-loader": "^0.11.0",
     "intelli-espower-loader": "^0.7.0",
     "mocha": "^2.2.5",
-    "power-assert": "^0.11.0"
+    "power-assert": "^0.11.0",
+    "standard": "^4.5.4"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }

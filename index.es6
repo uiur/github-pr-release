@@ -1,12 +1,12 @@
 require('babel/polyfill')
 
 var Github = require('github')
-  , co = require('co')
-  , fs = require('mz/fs')
-  , render = require('mustache').render
-  , moment = require('moment')
-  , thenifyAll = require('thenify-all')
-  , parseLinkHeader = require('parse-link-header')
+var co = require('co')
+var fs = require('mz/fs')
+var render = require('mustache').render
+var moment = require('moment')
+var thenifyAll = require('thenify-all')
+var parseLinkHeader = require('parse-link-header')
 
 var github = new Github({
   version: '3.0.0'
@@ -22,26 +22,26 @@ const defaultConfig = {
 
 var config = null
 
-function getRepo() {
+function getRepo () {
   return {
     user: config.repo.split('/')[0],
     repo: config.repo.split('/')[1]
   }
 }
 
-function readConfigFile() {
+function readConfigFile () {
   return fs.readFile('.github-pr-release.json', 'utf8')
            .then(JSON.parse)
            .catch(function () { return {} })
 }
 
-var readConfig = co.wrap(function* (runtimeConfig = {}) {
+var readConfig = co.wrap(function * (runtimeConfig = {}) {
   var fileConfig = yield readConfigFile()
 
   return Object.assign({}, defaultConfig, fileConfig, runtimeConfig)
 })
 
-var createReleaseMessage = co.wrap(function* (prs) {
+var createReleaseMessage = co.wrap(function * (prs) {
   var template = yield fs.readFile(__dirname + '/release.mustache', 'utf8')
 
   var text = render(template, { now: moment().format('YYYY-MM-DD HH:mm:ss'), prs: prs })
@@ -53,15 +53,15 @@ var createReleaseMessage = co.wrap(function* (prs) {
   }
 })
 
-function getPRCommits(repo, targetPR) {
+function getPRCommits (repo, targetPR) {
   var result = []
 
-  function getCommits(page = 1) {
+  function getCommits (page = 1) {
     return pullRequests.getCommits(Object.assign({}, repo, {
       number: targetPR.number,
       per_page: 100,
       page: page
-    })).then(function(commits) {
+    })).then(function (commits) {
       var link = parseLinkHeader(commits.meta.link)
 
       var hasNext = !!(link && link.next)
@@ -79,7 +79,7 @@ function getPRCommits(repo, targetPR) {
   return getCommits()
 }
 
-var getReleasePRs = co.wrap(function* (targetPR) {
+var getReleasePRs = co.wrap(function * (targetPR) {
   var repo = getRepo()
 
   var commits = yield getPRCommits(repo, targetPR)
@@ -94,7 +94,7 @@ var getReleasePRs = co.wrap(function* (targetPR) {
   var mergedPRs = prs.filter(pr => pr.merged_at !== null)
 
   var releasePRs = mergedPRs.reduce((ret, pr) => {
-    var matched =  pr.number !== targetPR.number && pr.base.ref === targetPR.head.ref
+    var matched = pr.number !== targetPR.number && pr.base.ref === targetPR.head.ref
 
     if (shas.indexOf(pr.head.sha) !== -1 && matched) {
       ret.push(pr)
@@ -105,27 +105,27 @@ var getReleasePRs = co.wrap(function* (targetPR) {
   return releasePRs
 })
 
-function createOrFirstReleasePR(repo, config) {
+function createOrFirstReleasePR (repo, config) {
   return pullRequests.create(Object.assign({}, repo, {
     title: 'Preparing release pull request...',
     base: config.branch.production,
     head: config.branch.staging
-  })).catch(function(err) {
+  })).catch(function (err) {
     if (!err.code === 422) throw err
 
     return pullRequests.getAll(Object.assign({}, repo, {
       head: 'master',
       state: 'open'
-    })).then(function(prs) {
-      return prs.find(function(pr) {
-        return pr.head.ref === config.branch.staging
-               && pr.base.ref === config.branch.production
+    })).then(function (prs) {
+      return prs.find(function (pr) {
+        return pr.head.ref === config.branch.staging &&
+               pr.base.ref === config.branch.production
       })
     })
   })
 }
 
-module.exports = co.wrap(function* (runtimeConfig = {}) {
+module.exports = co.wrap(function * (runtimeConfig = {}) {
   config = yield readConfig(runtimeConfig)
 
   var repo = getRepo()
