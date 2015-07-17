@@ -23,7 +23,7 @@ describe('GithubClient', function () {
     describe('when pr doesn\'t exist', function () {
       nock('https://api.github.com/')
         .post('/repos/uiureo/awesome-app/pulls')
-        .reply(200, {
+        .reply(201, {
           number: 42
         })
 
