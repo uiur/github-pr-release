@@ -35,6 +35,11 @@ release(config).then(function (pullRequest) {
 
 See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 
+## Install
+```
+npm install github-pr-release
+```
+
 ## Example
 
 ### hubot
