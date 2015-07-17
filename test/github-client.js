@@ -19,7 +19,7 @@ describe('GithubClient', function () {
     assert(this.client.token === 'token')
   })
 
-  describe('#createReleasePR()', function () {
+  describe('#prepareReleasePR()', function () {
     describe('when pr doesn\'t exist', function () {
       nock('https://api.github.com/')
         .post('/repos/uiureo/awesome-app/pulls')
@@ -28,7 +28,7 @@ describe('GithubClient', function () {
         })
 
       it('creates pr', function (done) {
-        this.client.createReleasePR().then(function (pr) {
+        this.client.prepareReleasePR().then(function (pr) {
           assert(pr.number === 42)
           done()
         }).catch(done)
@@ -48,7 +48,7 @@ describe('GithubClient', function () {
         ])
 
       it('returns the pr', function (done) {
-        this.client.createReleasePR().then(function (pr) {
+        this.client.prepareReleasePR().then(function (pr) {
           assert(pr.number === 3)
           done()
         }).catch(done)
