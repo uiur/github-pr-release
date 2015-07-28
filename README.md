@@ -37,7 +37,7 @@ See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 
 ### Pull request titles
 
-If one of pull requests of which consist a release pull request has a title like "Bump to v1.0", the title of the release pull request becomes "v1.0". Otherwise, it uses timestamps like "Release 2000-01-01 00:00:00" in local timezone.
+If one of pull requests of which consist a release pull request has a title like "Bump to v1.0", the title of the release pull request becomes "Release v1.0". Otherwise, it uses timestamps like "Release 2000-01-01 00:00:00" in local timezone.
 
 ## Install
 ```
