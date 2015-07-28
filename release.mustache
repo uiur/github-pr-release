@@ -1,4 +1,9 @@
+{{#title}}
+{{title}}
+{{/title}}
+{{^title}}
 Release {{now}}
+{{/title}}
 {{#prs}}
 - [ ] #{{number}} {{title}} {{#assignee}}@{{login}}{{/assignee}}{{^assignee}}{{#user}}@{{login}}{{/user}}{{/assignee}}
 {{/prs}}
