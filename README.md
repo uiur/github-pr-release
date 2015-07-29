@@ -1,7 +1,8 @@
 # github-pr-release
 [![Build Status](https://travis-ci.org/uiureo/github-pr-release.svg)](https://travis-ci.org/uiureo/github-pr-release)
+[![](https://img.shields.io/npm/v/github-pr-release.svg)](https://www.npmjs.com/package/github-pr-release)
 
-Create a release pull request by using Github API. In fact, this is a Node.js port of [git-pr-release]( https://github.com/motemen/git-pr-release).
+Create a release pull request by using Github API. Inspired by [git-pr-release]( https://github.com/motemen/git-pr-release).
 
 * No dependency on git. You can easily deploy it to Heroku etc.
 * Fast because it uses only Github API.
