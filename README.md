@@ -57,6 +57,9 @@ module.exports = (robot) ->
     release(config).then((pullRequest) ->
       msg.send pullRequest.html_url
     )
+    .catch((err) ->
+      msg.send("Create release PR failed: " + err.message)
+    )
 ```
 
 ## License
