@@ -38,7 +38,17 @@ describe('GithubClient', function () {
     describe('when pr already exists', function () {
       nock('https://api.github.com/')
         .post('/repos/uiureo/awesome-app/pulls')
-        .reply(422)
+        .reply(422, {
+          message: 'Validation Failed',
+          errors: [
+            {
+              resource: 'PullRequest',
+              code: 'custom',
+              message: 'A pull request already exists for uiureo:master.'
+            }
+          ],
+          documentation_url: 'https://developer.github.com/v3/pulls/#create-a-pull-request'
+        })
 
       nock('https://api.github.com/')
         .get('/repos/uiureo/awesome-app/pulls')
@@ -52,6 +62,29 @@ describe('GithubClient', function () {
           assert(pr.number === 3)
           done()
         }).catch(done)
+      })
+    })
+
+    describe('when no changes between head and base', function () {
+      nock('https://api.github.com/')
+        .post('/repos/uiureo/awesome-app/pulls')
+        .reply(422, {
+          message: 'Validation Failed',
+          errors: [
+            {
+              resource: 'PullRequest',
+              code: 'custom',
+              message: 'No commits between production and master'
+            }
+          ],
+          documentation_url: 'https://developer.github.com/v3/pulls/#create-a-pull-request'
+        })
+
+      it('rejects with error message', function (done) {
+        this.client.prepareReleasePR().catch(function (error) {
+          assert(error.message === 'No commits between production and master')
+          done()
+        })
       })
     })
   })
