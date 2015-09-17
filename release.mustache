@@ -1,4 +1,11 @@
 Release {{version}}
+{{#preferAuthor}}
+{{#prs}}
+- [ ] #{{number}} {{title}} {{#user}}@{{login}}{{/user}}
+{{/prs}}
+{{/preferAuthor}}
+{{^preferAuthor}}
 {{#prs}}
 - [ ] #{{number}} {{title}} {{#assignee}}@{{login}}{{/assignee}}{{^assignee}}{{#user}}@{{login}}{{/user}}{{/assignee}}
 {{/prs}}
+{{/preferAuthor}}
