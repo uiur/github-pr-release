@@ -36,6 +36,16 @@ release(config).then(function (pullRequest) {
 
 See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 
+#### Optional config
+
+If you set `preferAuthor` to `true`, then not assignee's username but author's one will be written into the message of the release pull request.
+
+``` javascript
+var config = {
+  // ...
+  preferAuthor: true
+}
+```
 ### Pull request titles
 
 If one of pull requests of which consist a release pull request has a title like "Bump to v1.0", the title of the release pull request becomes "Release v1.0". Otherwise, it uses timestamps like "Release 2000-01-01 00:00:00" in local timezone.
