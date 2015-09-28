@@ -23,8 +23,9 @@ var config = {
   token: 'your github token',
   owner: 'uiureo',
   repo:  'awesome-web-app',
-  head:  'master',
-  base:  'production'
+  head:  'master',                       // optional
+  base:  'production',                   // optional
+  template: '/path/to/template.mustache' // optional
 }
 
 release(config).then(function (pullRequest) {
@@ -36,13 +37,35 @@ release(config).then(function (pullRequest) {
 
 See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 
+## Install
+```
+npm install github-pr-release
+```
+
+## Tips
 ### Pull request titles
 
 If one of pull requests of which consist a release pull request has a title like "Bump to v1.0", the title of the release pull request becomes "Release v1.0". Otherwise, it uses timestamps like "Release 2000-01-01 00:00:00" in local timezone.
 
-## Install
+### Specify a message format
+You can specify a template to change the message format. Pass a template path to `config.template`.
+
+```javascript
+release({
+  token: 'token'
+  owner: 'uiureo',
+  repo:  'awesome-web-app',
+  template: './template.mustache'
+})
 ```
-npm install github-pr-release
+
+The default template is below. The first line is treated as the title.
+
+```mustache
+Release {{version}}
+{{#prs}}
+- [ ] #{{number}} {{title}} {{#assignee}}@{{login}}{{/assignee}}{{^assignee}}{{#user}}@{{login}}{{/user}}{{/assignee}}
+{{/prs}}
 ```
 
 ## Example

@@ -8,7 +8,8 @@ module.exports = function createReleasePR (config) {
 
   return client.prepareReleasePR().then(function (releasePR) {
     return client.collectReleasePRs(releasePR).then(function (prs) {
-      var template = fs.readFileSync(__dirname + '/release.mustache', 'utf8')
+      var templatePath = config.template || __dirname + '/release.mustache'
+      var template = fs.readFileSync(templatePath, 'utf8')
       var message = releaseMessage(template, prs)
 
       return client.updatePR(releasePR, message)

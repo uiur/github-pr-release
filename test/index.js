@@ -25,11 +25,19 @@ proxyquire('../', {
 var release = require('../')
 
 describe('release()', function () {
-  it('generates a PR message', function (done) {
+  it('generates a default PR message', function (done) {
     release({}).then(function (result) {
       assert((/^Release/).test(result.message.title))
       assert((/#42 foo @uiureo/).test(result.message.body))
       assert((/#43 bar @hiroshi/).test(result.message.body))
+    }).then(done, done)
+  })
+
+  it('uses the specified template in config', function (done) {
+    release({
+      template: './test/fixtures/test.mustache'
+    }).then(function (result) {
+      assert(result.message.title === 'party party')
     }).then(done, done)
   })
 })
