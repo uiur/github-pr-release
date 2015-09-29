@@ -87,6 +87,21 @@ describe('GithubClient', function () {
         })
       })
     })
+
+    describe('when repository is not found', function () {
+      nock('https://api.github.com/')
+        .post('/repos/uiureo/awesome-app/pulls')
+        .reply(404, {
+          message: 'Not Found'
+        })
+
+      it('returns an error', function (done) {
+        this.client.prepareReleasePR().catch(function (error) {
+          assert(error.message === 'Not Found')
+          done()
+        })
+      })
+    })
   })
 
   describe('#getPRCommits()', function () {
