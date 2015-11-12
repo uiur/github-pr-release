@@ -140,7 +140,7 @@ describe('GithubClient', function () {
         { sha: '1' },
         { sha: '2' }
       ])
-      .get('/repos/uiureo/awesome-app/pulls?state=closed&base=master&per_page=100&sort=updated')
+      .get('/repos/uiureo/awesome-app/pulls?state=closed&base=master&per_page=100&sort=updated&direction=desc')
       .reply(200, [
         { number: 10, head: { sha: '0' }, merged_at: null },
         { number: 1, head: { sha: '1' }, merged_at: 'a' },
