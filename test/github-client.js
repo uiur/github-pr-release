@@ -178,3 +178,29 @@ describe('GithubClient', function () {
     })
   })
 })
+
+describe('Github Enterprise support', function () {
+  before(function () {
+    this.client = new GithubClient({
+      owner: 'uiureo',
+      repo: 'awesome-app',
+      token: 'token',
+      endpoint: 'https://ghe.big.company/api/v2'
+    })
+  })
+
+  describe('#prepareReleasePR()', function () {
+    nock('https://ghe.big.company')
+      .post('/api/v2/repos/uiureo/awesome-app/pulls')
+      .reply(201, {
+        number: 42
+      })
+
+    it('creates pr', function (done) {
+      this.client.prepareReleasePR().then(function (pr) {
+        assert(pr.number === 42)
+        done()
+      }).catch(done)
+    })
+  })
+})
