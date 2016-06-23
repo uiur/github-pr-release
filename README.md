@@ -76,7 +76,6 @@ release({
   token: 'token'
   owner: 'uiureo',
   repo:  'awesome-web-app',
-  template: './template.mustache'
   endpoint: 'https://github.yourdomain.com/api/v3'
 })
 ```
