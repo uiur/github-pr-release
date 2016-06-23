@@ -68,6 +68,19 @@ Release {{version}}
 {{/prs}}
 ```
 
+### GitHub Enterprise
+If you use this plugin in GitHub Enterprise, you can specify endpoint domain for GitHub Enterprise.
+
+```javascript
+release({
+  token: 'token'
+  owner: 'uiureo',
+  repo:  'awesome-web-app',
+  template: './template.mustache'
+  endpoint: 'https://github.yourdomain.com/api/v3'
+})
+```
+
 ## Example
 
 ### hubot
