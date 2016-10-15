@@ -138,11 +138,13 @@ describe('GithubClient', function () {
       .reply(200, [
         { sha: '0' },
         { sha: '1' },
-        { sha: '2' }
+        { sha: '2' },
+        { sha: '3' }
       ])
       .get('/repos/uiureo/awesome-app/pulls?state=closed&base=master&per_page=100&sort=updated&direction=desc')
       .reply(200, [
         { number: 10, head: { sha: '0' }, merged_at: null },
+        { number: 3, head: { sha: '_3' }, merged_at: '2015-12-27T00:00:00Z', merge_commit_sha: '3' },
         { number: 2, head: { sha: '2' }, merged_at: '2015-12-26T00:00:00Z' },
         { number: 1, head: { sha: '1' }, merged_at: '2015-12-25T00:00:00Z' },
         { number: 100, head: { sha: '100' }, merged_at: '2015-12-27T00:00:00Z' }
@@ -151,10 +153,10 @@ describe('GithubClient', function () {
     it('returns prs that is going to be released', function (done) {
       this.client.collectReleasePRs({ number: 42 })
         .then(function (prs) {
-          assert(prs.length === 2)
+          assert(prs.length === 3)
 
           var numbers = prs.map(function (pr) { return pr.number })
-          assert.deepEqual(numbers, [1, 2], 'sorted by merged_at asc')
+          assert.deepEqual(numbers, [1, 2, 3], 'sorted by merged_at asc')
 
           done()
         }).catch(done)
