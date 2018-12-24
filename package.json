@@ -20,12 +20,12 @@
     "request": "^2.58.0"
   },
   "devDependencies": {
-    "espower-loader": "^0.11.0",
+    "espower-loader": "^1.2.2",
     "intelli-espower-loader": "^0.7.0",
-    "mocha": "^2.2.5",
-    "nock": "^2.7.0",
+    "mocha": "^5.2.0",
+    "nock": "^10.0.5",
     "power-assert": "^0.11.0",
     "proxyquire": "^1.7.2",
-    "standard": "^4.5.4"
+    "standard": "^12.0.1"
   }
 }
