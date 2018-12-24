@@ -15,7 +15,7 @@
   "dependencies": {
     "es6-promise": "^2.3.0",
     "moment": "^2.9.0",
-    "mustache": "^1.0.0",
+    "mustache": "^3.0.1",
     "parse-link-header": "^0.2.0",
     "request": "^2.58.0"
   },
