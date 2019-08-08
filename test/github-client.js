@@ -163,6 +163,31 @@ describe('GithubClient', function () {
     })
   })
 
+  describe('#assignReviewers()', function () {
+    const USER1 = 'pr1-owner'
+    const USER2 = 'pr2-owner'
+    nock('https://api.github.com')
+      .post('/repos/uiureo/awesome-app/pulls/42/requested_reviewers')
+      .query(true)
+      .reply(200, {
+        requested_reviewers: [ { login: USER1 }, { login: USER2 } ]
+      })
+
+    it('returns pr that has reviewers', function (done) {
+      const prs = [
+        { assignee: { login: USER1 } },
+        { user: { login: USER2 } }
+      ]
+      this.client.assignReviewers({ number: 42 }, prs)
+        .then(function (pr) {
+          assert(pr.requested_reviewers[0].login === USER1)
+          assert(pr.requested_reviewers[1].login === USER2)
+
+          done()
+        }).catch(done)
+    })
+  })
+
   describe('#updatePR()', function () {
     nock('https://api.github.com/')
       .patch('/repos/uiureo/awesome-app/pulls/42')
