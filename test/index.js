@@ -16,6 +16,9 @@ function MockGithubClient () {
     },
     updatePR: function (releasePR, message) {
       return Promise.resolve({ pr: releasePR, message: message })
+    },
+    assignReviewers: function (releasePR, prs) {
+      return Promise.resolve({ requested_reviewers: [] })
     }
   }
 }

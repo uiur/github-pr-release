@@ -13,6 +13,7 @@ module.exports = function createReleasePR (config) {
       var template = fs.readFileSync(templatePath, 'utf8')
       var message = releaseMessage(template, prs)
 
+      client.assignReviewers(releasePR, prs)
       return client.updatePR(releasePR, message)
     })
   })
