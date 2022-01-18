@@ -20,7 +20,9 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
-      - run: npm run release --ci
+      - run: |
+          npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+          npm run release --ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
