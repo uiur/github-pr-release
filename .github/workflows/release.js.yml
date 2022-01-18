@@ -22,6 +22,8 @@ jobs:
       - run: npm test
       - run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+          git config user.email "kazato.sugimoto@gmail.com"
+          git config user.name "Kazato Sugimoto"
           npm run release --ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
