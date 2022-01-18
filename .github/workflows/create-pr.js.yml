@@ -3,8 +3,6 @@ name: Create a pull request for QA
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
