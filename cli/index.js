@@ -12,7 +12,7 @@ const argv = yargs(hideBin(process.argv))
 
 const createReleasePR = require('../')
 
-async function main() {
+async function main () {
   const repoInput = argv._[0]
   const [owner, repo] = repoInput.split('/')
   const config = {
