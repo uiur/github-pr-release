@@ -16,9 +16,9 @@ Create a release pull request and return Promise.
 You must pass a config as an argument.
 
 ``` javascript
-var release = require('github-pr-release')
+const release = require('github-pr-release')
 
-var config = {
+const config = {
   token: 'your github token',
   owner: 'uiur',
   repo:  'awesome-web-app',
@@ -29,12 +29,20 @@ var config = {
 
 release(config).then(function (pullRequest) {
   // success
+  // `pullRequest` is an object that github api returns.
+  // See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
 })
 ```
 
-`pullRequest` is an object that github api returns.
+Also, the following environment variables can be used for the config:
 
-See: https://developer.github.com/v3/pulls/#get-a-single-pull-request
+- `GITHUB_PR_RELEASE_OWNER`
+- `GITHUB_PR_RELEASE_REPO`
+- `GITHUB_PR_RELEASE_TOKEN`
+- `GITHUB_PR_RELEASE_HEAD`
+- `GITHUB_PR_RELEASE_BASE`
+- `GITHUB_PR_RELEASE_ENDPOINT`
+
 
 ## Install
 ```
