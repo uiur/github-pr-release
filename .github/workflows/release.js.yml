@@ -1,11 +1,15 @@
 name: npm publish
-
 on:
-  push:
-    branches: [ production ]
+  pull_request:
+    types: [ closed ]
+
+  # Enable running this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   publish:
+    # Run this job on master when a release PR is merged
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'master' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
