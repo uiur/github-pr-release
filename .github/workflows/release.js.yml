@@ -1,0 +1,26 @@
+name: npm publish
+on:
+  pull_request:
+    types: [ closed ]
+
+  # Enable running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  publish:
+    # Run this job on master when a release PR is merged
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: npm run release --ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
