@@ -1,13 +1,13 @@
 # github-pr-release
 [![](https://img.shields.io/npm/v/github-pr-release.svg)](https://www.npmjs.com/package/github-pr-release)
 
-Create a release pull request by using Github API. Inspired by [git-pr-release]( https://github.com/motemen/git-pr-release).
+Create a release pull request using GitHub API. Inspired by [git-pr-release]( https://github.com/motemen/git-pr-release).
 
-* No dependency on git. You can easily deploy it to Heroku etc.
+* No dependency on git. You can easily deploy it to Heroku / AWS Lambda / Google Cloud Functions etc.
 * Fast because it uses only Github API.
+* Written in JavaScript.
 
 [![Gyazo](http://i.gyazo.com/7484a59ade4e96ce9a015f1aa817cab8.png)](http://gyazo.com/7484a59ade4e96ce9a015f1aa817cab8)
-
 
 ## Usage
 ### release(config)
@@ -88,6 +88,37 @@ release({
 ```
 
 ## Example
+### GitHub Actions
+
+Creating release pull requests can be automated using GitHub Actions.
+
+Create `.github/workflows/create-pr-release.yml` with the following content:
+
+```yml
+name: Create release pull requests
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: 'yarn'
+
+    - run: yarn install
+    - name: Create release pull requests
+      run: |
+        npx github-pr-release $GITHUB_REPOSITORY --head master --base production
+      env:
+        GITHUB_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ### hubot
 ![](http://i.gyazo.com/018755d09bbc857aeafdf48372912d79.png)
@@ -103,6 +134,12 @@ module.exports = (robot) ->
       msg.send("Create release PR failed: " + err.message)
     )
 ```
+
+## Development
+The release flow of github-pr-release is managed with github-pr-release itself.
+
+It creates a release pull request when merging a topic branch or pushing to the main branch.
+The update can be published by merging a release pull request.
 
 ## License
 MIT
