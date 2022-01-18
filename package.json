@@ -9,7 +9,8 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "test": "standard && mocha --require intelli-espower-loader"
+    "test": "standard && mocha --require intelli-espower-loader",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,12 @@
     "nock": "^10.0.5",
     "power-assert": "^0.11.0",
     "proxyquire": "^1.7.2",
+    "release-it": "^14.12.3",
     "standard": "^12.0.1"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
   }
 }
