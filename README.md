@@ -1,5 +1,4 @@
 # github-pr-release
-[![Build Status](https://travis-ci.org/uiureo/github-pr-release.svg)](https://travis-ci.org/uiureo/github-pr-release)
 [![](https://img.shields.io/npm/v/github-pr-release.svg)](https://www.npmjs.com/package/github-pr-release)
 
 Create a release pull request by using Github API. Inspired by [git-pr-release]( https://github.com/motemen/git-pr-release).
@@ -21,7 +20,7 @@ var release = require('github-pr-release')
 
 var config = {
   token: 'your github token',
-  owner: 'uiureo',
+  owner: 'uiur',
   repo:  'awesome-web-app',
   head:  'master',                       // optional
   base:  'production',                   // optional
@@ -53,7 +52,7 @@ You can specify a template to change the message format. Pass a template path to
 ```javascript
 release({
   token: 'token'
-  owner: 'uiureo',
+  owner: 'uiur',
   repo:  'awesome-web-app',
   template: './template.mustache'
 })
@@ -74,7 +73,7 @@ If you use this plugin in GitHub Enterprise, you can specify endpoint domain for
 ```javascript
 release({
   token: 'token'
-  owner: 'uiureo',
+  owner: 'uiur',
   repo:  'awesome-web-app',
   endpoint: 'https://github.yourdomain.com/api/v3'
 })
