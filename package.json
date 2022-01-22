@@ -9,8 +9,9 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "test": "standard && mocha --require intelli-espower-loader",
-    "release": "release-it"
+    "test": "mocha --require intelli-espower-loader",
+    "release": "release-it",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -26,13 +27,15 @@
   },
   "devDependencies": {
     "espower-loader": "^1.2.2",
+    "husky": "^7.0.4",
     "intelli-espower-loader": "^0.7.0",
+    "lint-staged": "^12.2.2",
     "mocha": "^5.2.0",
     "nock": "^10.0.5",
     "power-assert": "^0.11.0",
+    "prettier": "2.5.1",
     "proxyquire": "^1.7.2",
-    "release-it": "^14.12.3",
-    "standard": "^12.0.1"
+    "release-it": "^14.12.3"
   },
   "release-it": {
     "github": {
@@ -41,5 +44,8 @@
     "npm": {
       "skipChecks": true
     }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
