@@ -1,8 +1,8 @@
 export {};
-const assert = require("power-assert");
-const nock = require("nock");
+import assert from "power-assert";
+import nock from "nock";
 
-const GithubClient = require("../src/github-client");
+import GithubClient from "../src/github-client";
 
 describe("GithubClient", function () {
   before(function () {

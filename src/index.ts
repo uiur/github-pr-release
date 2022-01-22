@@ -1,10 +1,21 @@
-const fs = require("fs");
-const releaseMessage = require("./release-message");
-const GithubClient = require("./github-client");
-const path = require("path");
+import GithubClient from "./github-client";
+import path from "path";
 
-module.exports = function createReleasePR(config) {
-  const client = new GithubClient(config);
+import fs from "fs";
+import releaseMessage from "./release-message";
+
+interface ReleaseConfig {
+  token?: string;
+  owner?: string;
+  repo?: string;
+  head?: string;
+  base?: string;
+  template?: string;
+  githubClient?: GithubClient;
+}
+
+export default function createReleasePR(config: ReleaseConfig): Promise<any> {
+  const client = config.githubClient || new GithubClient(config);
 
   return client.prepareReleasePR().then(function (releasePR) {
     return client.collectReleasePRs(releasePR).then(function (prs) {
@@ -17,4 +28,4 @@ module.exports = function createReleasePR(config) {
       return client.updatePR(releasePR, message);
     });
   });
-};
+}

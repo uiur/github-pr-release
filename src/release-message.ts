@@ -1,7 +1,15 @@
-const render = require("mustache").render;
-const moment = require("moment");
+import { render } from "mustache";
+import moment from "moment";
 
-module.exports = function releaseMessage(template, prs) {
+interface ReleaseMessage {
+  title: string;
+  body: string;
+}
+
+export default function releaseMessage(
+  template: string,
+  prs: any[]
+): ReleaseMessage {
   let version = moment().format("YYYY-MM-DD HH:mm:ss");
 
   prs.some(function (pr) {
@@ -13,7 +21,7 @@ module.exports = function releaseMessage(template, prs) {
     }
   });
 
-  const text = render(template, { version: version, prs: prs });
+  const text: string = render(template, { version: version, prs: prs });
   const lines = text.split("\n");
   const title = lines[0];
   const body = lines.slice(1);
@@ -22,4 +30,4 @@ module.exports = function releaseMessage(template, prs) {
     title: title,
     body: body.join("\n"),
   };
-};
+}

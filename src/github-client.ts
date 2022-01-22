@@ -1,7 +1,7 @@
 export {};
 
-const request = require("request");
-const parseLinkHeader = require("parse-link-header");
+import request from "request";
+import parseLinkHeader from "parse-link-header";
 
 interface Config {
   owner?: string;
@@ -12,13 +12,13 @@ interface Config {
   endpoint?: string;
 }
 
-class GithubClient {
-  owner: string;
-  repo: string;
-  token: string;
-  head: string;
-  base: string;
-  endpoint: string;
+export default class GithubClient {
+  private owner: string;
+  private repo: string;
+  private token: string;
+  private head: string;
+  private base: string;
+  private endpoint: string;
 
   constructor(config: Config) {
     this.owner = config.owner || process.env.GITHUB_PR_RELEASE_OWNER;
@@ -33,18 +33,18 @@ class GithubClient {
       "https://api.github.com";
   }
 
-  pullRequestEndpoint() {
+  private pullRequestEndpoint() {
     return this.endpoint + "/repos/" + this.owner + "/" + this.repo + "/pulls";
   }
 
-  headers() {
+  private headers() {
     return {
       Authorization: "token " + this.token,
       "User-Agent": "uiur/github-pr-release",
     };
   }
 
-  get(url, query) {
+  private get(url, query) {
     var self = this;
     query = query || {};
 
@@ -64,7 +64,7 @@ class GithubClient {
     });
   }
 
-  post(url, body) {
+  private post(url, body) {
     var self = this;
     body = body || {};
 
@@ -85,7 +85,7 @@ class GithubClient {
     });
   }
 
-  patch(url, body) {
+  private patch(url, body) {
     var self = this;
     body = body || {};
 
@@ -228,11 +228,7 @@ class GithubClient {
 
   updatePR(pr, data) {
     return this.patch(this.pullRequestEndpoint() + "/" + pr.number, data).then(
-      function (res: any) {
-        return res.body;
-      }
+      (res: any) => res.body
     );
   }
 }
-
-module.exports = GithubClient;
