@@ -12,7 +12,7 @@ Create a release pull request using GitHub API. Inspired by [git-pr-release](htt
 
 ## Usage
 
-### release(config)
+### API: release(config)
 
 Create a release pull request and return Promise.
 
@@ -45,6 +45,31 @@ Also, the following environment variables can be used for the config:
 - `GITHUB_PR_RELEASE_HEAD`
 - `GITHUB_PR_RELEASE_BASE`
 - `GITHUB_PR_RELEASE_ENDPOINT`
+
+### CLI
+
+You can create a release pull request by the following command:
+
+```sh
+❯ npx github-pr-release owner/repo --head master --base production
+# `GITHUB_PR_RELEASE_TOKEN` is required
+```
+
+`--help`:
+
+```
+❯ npx github-pr-release --help
+Usage: github-pr-release [repo]
+
+Options:
+  --help     Show help                                                 [boolean]
+  --version  Show version number                                       [boolean]
+  --head                                                     [default: "master"]
+  --base                                                 [default: "production"]
+
+Examples:
+  github-pr-release uiur/github-pr-release --head master --base production
+```
 
 ## Install
 
