@@ -1,7 +1,7 @@
-/* global describe it */
-var assert = require('power-assert')
-var proxyquire = require('proxyquire')
-var Promise = require('es6-promise').Promise
+export {}
+
+const assert = require('power-assert')
+const proxyquire = require('proxyquire')
 
 function MockGithubClient () {
   return {
@@ -22,10 +22,10 @@ function MockGithubClient () {
     }
   }
 }
-proxyquire('../', {
-  './lib/github-client.js': MockGithubClient
+proxyquire('../src', {
+  './github-client': MockGithubClient
 })
-var release = require('../')
+const release = require('../src')
 
 describe('release()', function () {
   it('generates a default PR message', function (done) {

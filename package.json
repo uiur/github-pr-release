@@ -2,14 +2,15 @@
   "name": "github-pr-release",
   "version": "1.3.4",
   "description": "Create a release pull request by Github API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
     "github-pr-release": "cli/index.js"
   },
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "test": "standard && mocha --require intelli-espower-loader",
+    "compile": "tsc",
+    "test": "mocha -r ts-node/register -r intelli-espower-loader \"test/**/*.ts\"",
     "release": "release-it"
   },
   "repository": {
@@ -25,6 +26,7 @@
     "yargs": "^17.3.1"
   },
   "devDependencies": {
+    "@types/mocha": "^9.1.0",
     "espower-loader": "^1.2.2",
     "intelli-espower-loader": "^0.7.0",
     "mocha": "^5.2.0",
@@ -32,7 +34,9 @@
     "power-assert": "^0.11.0",
     "proxyquire": "^1.7.2",
     "release-it": "^14.12.3",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   },
   "release-it": {
     "github": {
@@ -41,5 +45,8 @@
     "npm": {
       "skipChecks": true
     }
+  },
+  "engines": {
+    "node": ">=0.12.0"
   }
 }
