@@ -11,7 +11,8 @@
   "scripts": {
     "compile": "tsc",
     "test": "mocha -r ts-node/register -r intelli-espower-loader \"test/**/*.ts\"",
-    "release": "release-it"
+    "release": "release-it",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -28,10 +29,13 @@
   "devDependencies": {
     "@types/mocha": "^9.1.0",
     "espower-loader": "^1.2.2",
+    "husky": "^7.0.4",
     "intelli-espower-loader": "^0.7.0",
+    "lint-staged": "^12.2.2",
     "mocha": "^5.2.0",
     "nock": "^10.0.5",
     "power-assert": "^0.11.0",
+    "prettier": "2.5.1",
     "proxyquire": "^1.7.2",
     "release-it": "^14.12.3",
     "standard": "^12.0.1",
@@ -48,5 +52,8 @@
   },
   "engines": {
     "node": ">=0.12.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
