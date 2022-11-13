@@ -29,3 +29,5 @@ export default async function createReleasePR(
   client.assignReviewers(releasePR, prs);
   return client.updatePR(releasePR, message);
 }
+
+module.exports = createReleasePR;
