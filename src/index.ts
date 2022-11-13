@@ -1,4 +1,4 @@
-import GithubClient from "./github-client";
+import GithubClient, { PullRequest } from "./github-client";
 import path from "path";
 
 import fs from "fs";
@@ -14,18 +14,18 @@ interface ReleaseConfig {
   githubClient?: GithubClient;
 }
 
-export default function createReleasePR(config: ReleaseConfig): Promise<any> {
+export default async function createReleasePR(
+  config: ReleaseConfig
+): Promise<PullRequest> {
   const client = config.githubClient || new GithubClient(config);
 
-  return client.prepareReleasePR().then(function (releasePR) {
-    return client.collectReleasePRs(releasePR).then(function (prs) {
-      const templatePath =
-        config.template || path.join(__dirname, "release.mustache");
-      const template = fs.readFileSync(templatePath, "utf8");
-      const message = releaseMessage(template, prs);
+  const releasePR = await client.prepareReleasePR();
+  const prs = await client.collectReleasePRs(releasePR);
+  const templatePath =
+    config.template || path.join(__dirname, "release.mustache");
+  const template = fs.readFileSync(templatePath, "utf8");
+  const message = releaseMessage(template, prs);
 
-      client.assignReviewers(releasePR, prs);
-      return client.updatePR(releasePR, message);
-    });
-  });
+  client.assignReviewers(releasePR, prs);
+  return client.updatePR(releasePR, message);
 }
