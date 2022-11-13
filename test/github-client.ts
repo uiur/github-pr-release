@@ -1,8 +1,8 @@
-/* global describe before it */
-var assert = require("power-assert");
-var nock = require("nock");
+export {};
+import assert from "power-assert";
+import nock from "nock";
 
-var GithubClient = require("../lib/github-client.js");
+import GithubClient from "../src/github-client";
 
 describe("GithubClient", function () {
   before(function () {

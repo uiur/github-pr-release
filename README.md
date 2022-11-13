@@ -12,7 +12,15 @@ Create a release pull request using GitHub API. Inspired by [git-pr-release](htt
 
 ## Usage
 
+<<<<<<< HEAD
+
+### release(config)
+
+=======
+
 ### API: release(config)
+
+> > > > > > > origin/master
 
 Create a release pull request and return Promise.
 
