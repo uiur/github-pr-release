@@ -175,6 +175,10 @@ The release flow of github-pr-release is managed with github-pr-release itself.
 It creates a release pull request when merging a topic branch or pushing to the main branch.
 The update can be published by merging a release pull request.
 
+See:
+
+https://github.com/uiur/github-pr-release/pulls?q=is%3Apr+is%3Aopen+Release
+
 ## License
 
 MIT
