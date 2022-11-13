@@ -9,7 +9,7 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
+    "build": "tsc",
     "test": "mocha -r ts-node/register -r intelli-espower-loader \"test/**/*.ts\"",
     "release": "release-it",
     "prepare": "husky install"
