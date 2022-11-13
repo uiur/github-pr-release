@@ -6,21 +6,13 @@ Create a release pull request using GitHub API. Inspired by [git-pr-release](htt
 
 - No dependency on git. You can easily deploy it to Heroku / AWS Lambda / Google Cloud Functions etc.
 - Fast because it uses only Github API.
-- Written in JavaScript.
+- Written in TypeScript / JavaScript.
 
 [![Gyazo](http://i.gyazo.com/7484a59ade4e96ce9a015f1aa817cab8.png)](http://gyazo.com/7484a59ade4e96ce9a015f1aa817cab8)
 
 ## Usage
 
-<<<<<<< HEAD
-
-### release(config)
-
-=======
-
 ### API: release(config)
-
-> > > > > > > origin/master
 
 Create a release pull request and return Promise.
 
@@ -182,6 +174,10 @@ The release flow of github-pr-release is managed with github-pr-release itself.
 
 It creates a release pull request when merging a topic branch or pushing to the main branch.
 The update can be published by merging a release pull request.
+
+See:
+
+https://github.com/uiur/github-pr-release/pulls?q=is%3Apr+is%3Aopen+Release
 
 ## License
 
