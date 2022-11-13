@@ -35,7 +35,7 @@
     "@types/request": "^2.48.8",
     "@types/yargs": "^17.0.8",
     "husky": "^7.0.4",
-    "intelli-espower-loader": "^0.7.0",
+    "intelli-espower-loader": "^1.1.0",
     "lint-staged": "^12.2.2",
     "mocha": "^5.2.0",
     "nock": "^10.0.5",
