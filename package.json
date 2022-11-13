@@ -9,7 +9,7 @@
   "author": "Kazato Sugimoto",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/*.mustache dist/",
     "test": "mocha -r ts-node/register -r intelli-espower-loader \"test/**/*.ts\"",
     "release": "release-it",
     "prepare": "husky install"
