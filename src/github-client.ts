@@ -169,7 +169,7 @@ export default class GithubClient {
 
     return await this.get(this.pullRequestEndpoint(), {
       state: "closed",
-      base: this.head,
+      base: this.head.split(":").at(-1),
       per_page: 100,
       sort: "updated",
       direction: "desc",
