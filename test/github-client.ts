@@ -177,6 +177,32 @@ describe("GithubClient", function () {
     });
   });
 
+  describe("#collectReleasePRs(): head option with `org:`", function () {
+    nock("https://api.github.com")
+      .get("/repos/uiureo/awesome-app/pulls/42/commits")
+      .query(true)
+      .reply(200, [])
+      .get(
+        "/repos/uiureo/awesome-app/pulls?state=closed&base=branch&per_page=100&sort=updated&direction=desc"
+      )
+      .reply(200, []);
+
+    it("returns prs that is going to be released", function (done) {
+      const client = new GithubClient({
+        owner: "uiureo",
+        repo: "awesome-app",
+        head: "org:branch",
+      });
+      client
+        .collectReleasePRs({ number: 42 })
+        .then(function (prs) {
+          assert(prs.length === 0);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
   describe("#assignReviewers()", function () {
     const USER1 = "pr1-owner";
     const USER2 = "pr2-owner";
